@@ -2,119 +2,131 @@
 #include <stdlib.h>
 #include <time.h>
 
+// Función para llenar la matriz con numeros aleatorios
 static void completarMatrizRandom(int** matriz, int n) {
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            matriz[i][j] = rand() % 9; // Genera n�meros aleatorios 
+    for (int i = 0; i < n; i++) {//1+1+2 OE
+        for (int j = 0; j < n; j++) {//1+1+2 OE
+            matriz[i][j] = rand() % 9; // Genera números aleatorios, 2 OE
         }
     }
 }
 
 static void imprimirMatriz(int** matriz, int n) {
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            printf("%d\t", matriz[i][j]);
+    for (int i = 0; i < n; i++) {//1+1+2 OE
+        for (int j = 0; j < n; j++) {//1+1+2 OE
+            printf("%5d\t", matriz[i][j]);//2 OE
         }
-        printf("\n");
+        printf("\n");//1 OE
     }
 }
 
-static double multiplicarMatrices (int** matriz1, int** matriz2, int** matrizMultiplicada, int n) {
-    
+// Función para multiplicar matrices y calcular el tiempo de ejecución
+static double multiplicarMatrices(int** matriz1, int** matriz2, int** matrizMultiplicada, int n) {
+
     clock_t tiempoInicial, tiempoFinal;
     double tiempoEjecucion;
 
-    tiempoInicial = clock();
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            matrizMultiplicada[i][j] = 0;
-            for (int k = 0; k < n; k++) {
-                matrizMultiplicada[i][j] += matriz1[i][k] * matriz2[k][j];
+    tiempoInicial = clock(); // Guarda el tiempo antes de la multiplicación, 2 OE
+
+    //Utilizando tres bucles for, se multiplican las matrices
+    for (int i = 0; i < n; i++) {//1+1+2 OE
+        for (int j = 0; j < n; j++) {//1+1+2 OE
+            matrizMultiplicada[i][j] = 0;//1 OE
+            for (int k = 0; k < n; k++) {//1+1+2 OE
+                matrizMultiplicada[i][j] += matriz1[i][k] * matriz2[k][j];//3 OE
             }
         }
     }
-    tiempoFinal = clock();
 
-    tiempoEjecucion = ((double)(tiempoFinal - tiempoInicial)) / CLOCKS_PER_SEC;//se utiliza CLOCKS_PER_SEC para convertir a segundos
-    
-    return tiempoEjecucion;
+    tiempoFinal = clock(); // Guarda el tiempo después de la multiplicación, 2 OE
+
+    tiempoEjecucion = ((double)(tiempoFinal - tiempoInicial)) / CLOCKS_PER_SEC;//se utiliza CLOCKS_PER_SEC para convertir a segundos, 3 OE
+
+    return tiempoEjecucion;//1 OE
 }
 
 int main() {
     int numero;
 
-    printf("Ingrese un numero para generar las matrices");
-    scanf_s("%d", &numero);
+    printf("Ingrese un numero para generar las matrices: ");//1 OE
+    scanf_s("%d", &numero);//2 OE
 
-    int** matrizDinamica1 = (int**)malloc(numero * sizeof(int*));
-    int** matrizDinamica2 = (int**)malloc(numero * sizeof(int*));
-    int** matrizDinamica3 = (int**)malloc(numero * sizeof(int*));
-    int** resultadoPrimeraMultiplicacion = (int**)malloc(numero * sizeof(int*));
-    int** matrizMultiplicada = (int**)malloc(numero * sizeof(int*));
+    // Usando malloc se asigna memoria dinámica a las matrices de tamaño 'numero'
+    int** matrizDinamica1 = (int**)malloc(numero * sizeof(int*));//4 OE
+    int** matrizDinamica2 = (int**)malloc(numero * sizeof(int*));//4 OE
+    int** matrizDinamica3 = (int**)malloc(numero * sizeof(int*));//4 OE
+    int** resultadoPrimeraMultiplicacion = (int**)malloc(numero * sizeof(int*));//4 OE
+    int** matrizMultiplicada = (int**)malloc(numero * sizeof(int*));//4 OE
 
-    for (int i = 0; i < numero; i++) {
-        matrizDinamica1[i] = (int*)malloc(numero * sizeof(int));
+    for (int i = 0; i < numero; i++) {//1+1+2
+        matrizDinamica1[i] = (int*)malloc(numero * sizeof(int));//4 OE
     }
-    for (int i = 0; i < numero; i++) {
-        matrizDinamica2[i] = (int*)malloc(numero * sizeof(int));
+    for (int i = 0; i < numero; i++) {//1+1+2
+        matrizDinamica2[i] = (int*)malloc(numero * sizeof(int));//4 OE
     }
-    for (int i = 0; i < numero; i++) {
-        matrizDinamica3[i] = (int*)malloc(numero * sizeof(int));
+    for (int i = 0; i < numero; i++) {//1+1+2
+        matrizDinamica3[i] = (int*)malloc(numero * sizeof(int));//4 OE
     }
-    for (int i = 0; i < numero; i++) {
-        resultadoPrimeraMultiplicacion[i] = (int*)malloc(numero * sizeof(int));
+    for (int i = 0; i < numero; i++) {//1+1+2
+        resultadoPrimeraMultiplicacion[i] = (int*)malloc(numero * sizeof(int));//4 OE
     }
-    for (int i = 0; i < numero; i++) {
-        matrizMultiplicada[i] = (int*)malloc(numero * sizeof(int));
+    for (int i = 0; i < numero; i++) {//1+1+2
+        matrizMultiplicada[i] = (int*)malloc(numero * sizeof(int));//4 OE
     }
 
-    completarMatrizRandom(matrizDinamica1, numero);
-    completarMatrizRandom(matrizDinamica2, numero);
-    completarMatrizRandom(matrizDinamica3, numero);
+    // Se llenan las matrices con numeros aleatorios
+    completarMatrizRandom(matrizDinamica1, numero);//3 OE
+    completarMatrizRandom(matrizDinamica2, numero);//3 OE
+    completarMatrizRandom(matrizDinamica3, numero);//3 OE
 
-    printf("Matriz generada numero 1\n");
-    imprimirMatriz(matrizDinamica1, numero);
-    printf("Matriz generada numero 2\n");
-    imprimirMatriz(matrizDinamica2, numero);
-    printf("Matriz generada numero 3\n");
-    imprimirMatriz(matrizDinamica3, numero);
+    // Impresión de las matrices generadas
+    printf("Matriz generada numero 1\n");//1 OE
+    imprimirMatriz(matrizDinamica1, numero);//3 OE
+    printf("\nMatriz generada numero 2\n");//1 OE
+    imprimirMatriz(matrizDinamica2, numero);//3 OE
+    printf("\nMatriz generada numero 3\n");//1 OE
+    imprimirMatriz(matrizDinamica3, numero);//3 OE
+
+    // Realiza la multiplicación de matrices y tiempo de ejecución
+    double tiempo1 = multiplicarMatrices(matrizDinamica1, matrizDinamica2, resultadoPrimeraMultiplicacion, numero);//6 OE
     
+    double tiempo2 = multiplicarMatrices(resultadoPrimeraMultiplicacion, matrizDinamica3, matrizMultiplicada, numero);//6 OE
+    
+    double tiempoTotalEjecucion = tiempo1 + tiempo2;//2 OE
 
-    double tiempo = multiplicarMatrices(matrizDinamica1, matrizDinamica2, resultadoPrimeraMultiplicacion, numero);
-    printf("El tiempo de ejecucion de la primera multiplicacion fue de: %f segundos\n", tiempo);
-    tiempo = multiplicarMatrices(resultadoPrimeraMultiplicacion, matrizDinamica3, matrizMultiplicada, numero);
-    printf("El tiempo de ejecucion de la segunda multiplicacion fue de: %f segundos\n", tiempo);
+    // Impresión de la matriz
+    printf("\nMatriz multiplicada\n");//1 OE
+    imprimirMatriz(matrizMultiplicada, numero);//3 OE
 
-    printf("Matriz multiplicada\n");
-    imprimirMatriz(matrizMultiplicada, numero);
+    printf("\n> El tiempo total de ejecucion del ciclo de repeticion para multiplicar las matrices es de: %f segundos\n", tiempoTotalEjecucion);//2 OE
 
-    for (int i = 0; i < numero; i++) {
-        free(matrizDinamica1[i]);
+    // Se libera la memoria asignada a las matrices
+    for (int i = 0; i < numero; i++) {//1+1+2 OE
+        free(matrizDinamica1[i]);//2 OE
     }
-    free(matrizDinamica1);
+    free(matrizDinamica1);//2 OE
 
-    for (int i = 0; i < numero; i++) {
-        free(matrizDinamica2[i]);
+    for (int i = 0; i < numero; i++) {//1+1+2 OE
+        free(matrizDinamica2[i]);//2 OE
     }
-    free(matrizDinamica2);
+    free(matrizDinamica2);//2 OE
 
-    for (int i = 0; i < numero; i++) {
-        free(matrizDinamica3[i]);
+    for (int i = 0; i < numero; i++) {//1+1+2 OE
+        free(matrizDinamica3[i]);//2 OE
     }
-    free(matrizDinamica3);
+    free(matrizDinamica3);//2 OE
 
-    for (int i = 0; i < numero; i++) {
-        free(resultadoPrimeraMultiplicacion[i]);
+    for (int i = 0; i < numero; i++) {//1+1+2 OE
+        free(resultadoPrimeraMultiplicacion[i]);//2 OE
     }
-    free(resultadoPrimeraMultiplicacion);
+    free(resultadoPrimeraMultiplicacion);//2 OE
 
-    for (int i = 0; i < numero; i++) {
-        free(matrizMultiplicada[i]);
+    for (int i = 0; i < numero; i++) {//1+1+2 OE
+        free(matrizMultiplicada[i]);//2 OE
     }
-    free(matrizMultiplicada);
+    free(matrizMultiplicada);//2 OE
 
-    return 0;
-}
-
+    return 0;//1 OE
+} // fin main
